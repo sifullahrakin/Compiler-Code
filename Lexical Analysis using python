@@ -1,0 +1,102 @@
+#Rakin Mohammad Sifullah
+#Lexical Analysis
+
+import nltk #used for tokenization of the input
+import re #Regular expression
+
+#taking input
+input_string= input("Enter: ")
+input_tokens= nltk.wordpunct_tokenize(input_string)
+print(input_tokens)
+
+#delete duplicate tokens
+input_tokens= list(dict.fromkeys(input_tokens))
+print(input_tokens)
+
+#keywords
+keyword = ['as', 'assert', 'break', 'class', 'def', 'del',
+'elif', 'else', 'except', 'exec', 'finally', 'for', 'from', 'global','if', 'import',
+'in', 'is', 'lambda', 'pass', 'print', 'raise', 'return', 'try', 'while', 'with', 'yield','int','float', 'false','true','none']
+
+parenthesis = ['(',')','{','}','[',']'] #list of parenthesis
+
+comment = ['#'] #list for comments
+
+punctuation = [';',':',',','.'] #list for punctuation
+
+#OPERATORS
+
+arithmetics = ['+','-','*','/','%','++','--','**','//']
+
+assignments = ['=','+=','-=','/=','%=','*=','**=','&=','|=']
+
+comparisions = ['==','>','<','<=','>=','!=']
+
+identifiers = "^[a-zA-Z_]+[a-zA-Z0-9_]*" #list for identifiers
+
+#number
+numerics = "^(\d+)$" #\d is a digit (a character in the range 0-9), and + means 1 or more times
+
+armetic_op = []
+assign_op = []
+comp_op = []
+punc = []
+pr = []
+key = []
+ident = []
+numeric = []
+
+for token in input_tokens:
+  if token in keyword:
+    key.append(token)
+
+  elif(re.findall(identifiers,token)):
+    ident.append(token)
+    
+  elif token in arithmetics:
+    armetic_op.append(token)
+
+  elif token in assignments:
+    assign_op.append(token)
+
+  elif token in comparisions:
+    comp_op.append(token)
+
+  elif(re.findall(numerics,token)):
+    numeric.append(token)
+
+  elif token in parenthesis:
+    pr.append(token)
+
+  elif token in punctuation:
+    punc.append(token)
+
+  elif token in comment:
+    break
+
+  else:
+    print("Invalid Syntax")
+
+print("Keywords",len(key),": ",end='')
+print(*key, sep =', ')
+
+print("Identifier",len(ident),": ",end='')
+print(*ident, sep =', ')
+
+print("Numbers",len(numeric),": ",end='')
+print(*numeric, sep =', ')
+
+print("Arithmetic Operator",len(armetic_op),": ",end='')
+print(*armetic_op, sep =', ')
+
+print("Assignment Operator",len(assign_op),": ",end='')
+print(*assign_op, sep =', ')
+
+print("Comparision Operator",len(comp_op),": ",end='')
+print(*comp_op, sep =', ')
+
+print("Punctuation",len(punc),": ",end='')
+print(*punc, sep =', ')
+
+print("Parenthesis",len(pr),": ",end='')
+print(*pr, sep =', ')

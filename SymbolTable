@@ -1,0 +1,65 @@
+#for using dataframe
+import pandas as pd
+
+df = pd.DataFrame(columns=['Name', 'Type'])
+df.head()
+
+def insert(df, name, typ):
+    if (name not in df.Name.values) or (typ not in df.Type.values):
+        df.loc[-1] = [name, typ]
+        df.index = df.index + 1
+        df = df.sort_index()
+    return df
+
+def search(df, name):
+    return df.loc[df['Name'] == name]
+
+def delete(df, name):
+    try:
+        idx = df.loc[df['Name'] == name].index[0]
+        df.drop([idx],axis=0,inplace=True)
+        df.reset_index(inplace=True)
+        df.drop('index',axis=1,inplace=True)
+        return df
+    except:
+        print('Name not found')
+        return df
+    
+def update(df, name=None, new_name=None, typ=None, new_typ=None):
+    if name:
+        if name in df.Name.values:
+            df.loc[df.Name == name,'Name'] = new_name
+    if typ:
+        if typ in df.Type.values:
+            df.loc[df.Type == typ,'Type'] = new_typ
+            
+    return df
+
+def show():
+    print(df)
+    
+    
+def getHashKey(df, name):
+    return df.loc[df['Name'] == name].index[0]
+    
+df = insert(df,'int','INTEGER')
+df = insert(df,'myFunction','FUNCTION')
+df = insert(df,'x','ID')
+df = insert(df,'5','NUM')
+df
+
+df = insert(df,'Mariam','float')
+df
+
+search(df, '5')
+
+df = delete(df,name='x')
+df
+
+# Show
+show()
+
+df = update(df, '5','6','NUM','Number')
+df
+
+getHashKey(df,'6')
